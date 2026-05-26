@@ -1,0 +1,20 @@
+import { NextResponse } from 'next/server';
+
+export async function POST() {
+  const response = NextResponse.json({
+    message: 'Sesión cerrada correctamente',
+  });
+
+  // Clear cookie by setting it to empty with maxAge 0
+  response.cookies.set({
+    name: 'auth_token',
+    value: '',
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 0,
+  });
+
+  return response;
+}
