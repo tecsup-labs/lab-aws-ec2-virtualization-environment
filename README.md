@@ -1,117 +1,128 @@
 # ContactFlow Enterprise 💎
-### Laboratorio: Entorno de Virtualización y Despliegue en la Nube (AWS EC2 & Docker)
+### Sistema Profesional de Gestión y Control de Contactos Empresariales
 
-Este repositorio contiene la implementación y documentación del laboratorio de virtualización y despliegue de aplicaciones web de alto rendimiento. El proyecto consiste en **ContactFlow Enterprise**, una aplicación SaaS premium de gestión de contactos empresariales diseñada bajo un entorno *glassmorphic* en modo claro, dockerizada y desplegada en una máquina virtual **Windows Server 2025** sobre **Amazon Web Services (AWS) EC2**.
+**ContactFlow Enterprise** es una aplicación web full-stack de alto rendimiento diseñada para la administración, búsqueda y organización de credenciales y contactos de redes corporativas. Cuenta con una interfaz de usuario de última generación basada en *glassmorphism* (efectos de cristal y agua translúcida) en modo claro unificado, diseñada para ofrecer una experiencia interactiva, rápida y fluida.
 
----
-
-## 🚀 Arquitectura y Tecnologías del Proyecto
-
-El laboratorio demuestra la integración de infraestructura en la nube, virtualización por contenedores y desarrollo de software moderno:
-
-* **Infraestructura Cloud**: Amazon Web Services (AWS) EC2
-* **Sistema Operativo Virtualizado**: Windows Server 2025 Base
-* **Conectividad Remota**: Protocolo RDP (Remote Desktop Protocol) mediante Windows App
-* **Orquestación de Contenedores**: Docker & Docker Compose
-* **Frontend & Backend (Full Stack)**: Next.js 15, React 19 y TypeScript
-* **Estilo y Diseño**: Tailwind CSS v4, shadcn/ui, Framer Motion (Glassmorphism & Liquid Light effects)
-* **Base de Datos y Persistencia**: PostgreSQL con Prisma ORM
+El proyecto está completamente dockerizado, lo que permite replicar e implementar todo el sistema (Base de datos PostgreSQL, ORM Prisma y Servidor Next.js 15) en cualquier máquina con un solo comando.
 
 ---
 
-## 🛠️ Guía de Replicación Paso a Paso
+## ✨ Características Principales
 
-Sigue esta guía detallada para levantar y probar la infraestructura y la aplicación desde cero.
-
-### Fase 1: Creación de la Instancia en AWS EC2
-
-1. **Acceder a la Consola de AWS**: Dirígete al servicio **EC2** y presiona **Launch Instance** (Lanzar Instancia).
-2. **Seleccionar el Sistema Operativo (AMI)**: Selecciona **Microsoft Windows Server 2025 Base** (Free Tier Eligible).
-3. **Tipo de Instancia**: Selecciona `t3.micro` (o `t2.micro` según disponibilidad en tu capa gratuita).
-4. **Key Pair (Llave de Seguridad)**: Crea un nuevo par de llaves (.pem) llamado `lab-ec2-key.pem` y guárdalo de forma segura. Lo necesitarás para descifrar la contraseña.
-5. **Configuración de Red (Security Groups)**:
-   * Habilita el tráfico **RDP (Puerto 3389)** desde tu IP pública actual.
-   * Agrega una regla personalizada para **TCP (Puerto 3000)** desde cualquier dirección (`0.0.0.0/0`) para permitir el acceso público a la aplicación web.
-6. **Lanzar**: Presiona **Launch Instance** y espera a que el estado sea `Running` con las comprobaciones `2/2 checks` superadas.
+* **Autenticación Segura**: Panel de acceso unificado con encriptación bcrypt, sesiones basadas en JWT seguras y animaciones inmersivas de entrada.
+* **Dashboard de Métricas**: Tarjetas glassmorphic con estadísticas en tiempo real (Contactos totales, Empresas activas, Nuevos este mes) y un listado dinámico de agregados recientes.
+* **Libreta de Contactos Avanzada**:
+  * **Dos Vistas Interactivas**: Intercambio dinámico entre vista de tabla compacta corporativa y vista de tarjetas visuales elegantes con avatares.
+  * **Búsqueda en Tiempo Real**: Filtro inteligente multicanal que busca instantáneamente por nombre, cargo, correo o empresa.
+  * **Alertas Personalizadas**: Sistema de confirmación de eliminación permanente con físicas elásticas interactivas (Framer Motion), eliminando el uso de avisos nativos del navegador.
+* **Modo Claro Ultra-Premium**: Estilizado con esferas HSL flotantes en el fondo que simulan cristal líquido y sombras difusas elegantes.
 
 ---
 
-### Fase 2: Conexión Remota mediante RDP
+## 🛠️ Tecnologías del Proyecto
 
-1. **Obtener Contraseña**:
-   * En la consola de EC2, selecciona tu instancia, presiona **Connect** y ve a la pestaña **RDP client**.
-   * Haz clic en **Get password**, sube tu archivo `lab-ec2-key.pem` y presiona **Decrypt password**. Copia la contraseña descifrada.
-2. **Establecer Conexión**:
-   * Descarga la aplicación **Windows App** (Microsoft Remote Desktop) en tu macOS/Linux/Windows.
-   * Crea una nueva conexión con la **IP Pública** de tu instancia de AWS.
-   * Conéctate utilizando las credenciales:
-     * **Usuario**: `Administrator`
-     * **Contraseña**: *(La contraseña descifrada en el paso anterior)*
+* **Core**: Next.js 15 (App Router), React 19 y TypeScript.
+* **Diseño**: Tailwind CSS v4, Lucide Icons, Framer Motion (para micro-interacciones y modal de físicas).
+* **Base de Datos**: PostgreSQL.
+* **ORM & Acceso a Datos**: Prisma ORM (migraciones automatizadas y seeding).
+* **Contenedores**: Docker & Docker Compose.
 
 ---
 
-### Fase 3: Preparación del Entorno en la Máquina Virtual
+## 🚀 Guía de Replicación Local
 
-Una vez dentro de la sesión de escritorio remoto de Windows Server, abre el navegador (Microsoft Edge) e instala las siguientes herramientas obligatorias:
+Sigue estos sencillos pasos para descargar, configurar y ejecutar la aplicación en tu entorno de desarrollo.
 
-1. **Git para Windows**: Descarga e instala desde [git-scm.com](https://git-scm.com/).
-2. **Docker Desktop para Windows**: Descarga e instala desde [docker.com](https://www.docker.com/).
-   * *Nota: Asegúrate de habilitar las funciones de virtualización y WSL 2 si el asistente de instalación lo requiere.*
-3. Abre la consola de **PowerShell** (o CMD) y verifica que las herramientas estén disponibles en las variables de entorno ejecutando:
-   ```powershell
-   git --version
-   docker --version
-   docker compose version
-   ```
+### Opción A: Despliegue Rápido con Docker (Recomendado)
 
----
+Esta es la forma más rápida y limpia de replicar el proyecto, ya que Docker se encargará de instalar y configurar la base de datos y compilar el servidor automáticamente.
 
-### Fase 4: Clonación y Despliegue de la Aplicación con Docker
+#### Requisitos Previos:
+* Tener instalado **Docker** y **Docker Desktop** (con WSL 2 si estás en Windows).
+* Tener instalado **Git**.
 
-En la terminal de tu máquina virtual Windows Server, realiza el flujo de clonación y lanzamiento automatizado:
+#### Pasos para la ejecución:
 
 1. **Clonar el Repositorio**:
    ```bash
    git clone https://github.com/tecsup-labs/lab-aws-ec2-virtualization-environment.git
-   ```
-2. **Entrar al Directorio del Proyecto**:
-   ```bash
    cd lab-aws-ec2-virtualization-environment
    ```
-3. **Crear archivo de Variables de Entorno (`.env`)**:
-   * Crea un archivo llamado `.env` en la raíz del proyecto para indicarle a Docker Compose las credenciales internas de la base de datos PostgreSQL:
+
+2. **Crear el Archivo de Variables de Entorno (`.env`)**:
+   Crea un archivo llamado `.env` en la raíz del proyecto y copia la siguiente configuración por defecto:
    ```env
    DATABASE_URL="postgresql://postgres:postgres123@db:5432/contacts_db?schema=public"
    JWT_SECRET="your-super-secret-enterprise-jwt-key-2026"
    NODE_ENV="production"
    NEXT_PUBLIC_API_URL="http://localhost:3000"
    ```
-4. **Ejecutar con Docker Compose**:
-   Levanta la base de datos PostgreSQL y compila el frontend de Next.js en producción automáticamente con un solo comando:
+
+3. **Ejecutar el Stack de Docker**:
+   Ejecuta el siguiente comando en tu terminal para compilar el proyecto y levantar los contenedores:
    ```bash
    docker compose up --build -d
    ```
-   *El contenedor del backend esperará a que la base de datos esté lista, ejecutará las migraciones de Prisma ORM automáticamente a través del entrypoint y sembrará datos de prueba.*
+   *Nota: El contenedor de la base de datos se creará, se aplicarán las migraciones de Prisma de forma automática a través del punto de entrada (`entrypoint.sh`) y se sembrarán datos de prueba para que no inicies con la base de datos vacía.*
+
+4. **Acceder a la Aplicación**:
+   Abre tu navegador e ingresa a:
+   ```text
+   http://localhost:3000
+   ```
 
 ---
 
-### Fase 5: Verificación en el Navegador
+### Opción B: Ejecución en Entorno de Desarrollo Local (Sin Docker)
 
-* **Acceso Local (Dentro de la VM)**: Abre el navegador en Windows Server e ingresa a `http://localhost:3000`.
-* **Acceso Público (Desde tu Mac física)**: Abre el navegador e ingresa utilizando la **IP Pública de tu instancia AWS** en el puerto 3000:
-  ```text
-  http://<IP_PUBLICA_AWS>:3000
-  ```
+Si prefieres ejecutar el proyecto directamente en tu sistema local:
 
-#### 🔑 Credenciales por Defecto para Pruebas:
+#### Requisitos Previos:
+* **Node.js** (versión 18 o superior).
+* **PostgreSQL** activo en tu máquina local.
+
+#### Pasos para la ejecución:
+
+1. **Clonar el proyecto e instalar dependencias**:
+   ```bash
+   git clone https://github.com/tecsup-labs/lab-aws-ec2-virtualization-environment.git
+   cd lab-aws-ec2-virtualization-environment
+   npm install
+   ```
+
+2. **Configurar el archivo `.env`**:
+   Crea el archivo `.env` apuntando a tu PostgreSQL local:
+   ```env
+   DATABASE_URL="postgresql://USUARIO:CONTRASEÑA@localhost:5432/contacts_db?schema=public"
+   JWT_SECRET="your-super-secret-enterprise-jwt-key-2026"
+   NODE_ENV="development"
+   NEXT_PUBLIC_API_URL="http://localhost:3000"
+   ```
+
+3. **Ejecutar las migraciones y base de datos**:
+   ```bash
+   # Generar cliente de Prisma
+   npx prisma generate
+   
+   # Aplicar migraciones a la base de datos
+   npx prisma migrate dev
+   
+   # Sembrar la base de datos con contactos de prueba
+   npx prisma db seed
+   ```
+
+4. **Iniciar el servidor de desarrollo**:
+   ```bash
+   npm run dev
+   ```
+
+5. **Acceder**: Abre tu navegador en `http://localhost:3000`.
+
+---
+
+## 🔑 Credenciales de Prueba por Defecto
+
+Para ingresar al sistema una vez desplegado:
+
 * **Usuario**: `demo@example.com`
 * **Contraseña**: `admin123`
-
----
-
-## 🎨 Características Destacadas de la Interfaz
-
-* **Glassmorphism Premium**: Todas las ventanas y tarjetas del dashboard privado tienen un fondo traslúcido reactivo que flota elegantemente.
-* **Fondo de Cristal Líquido**: Cuenta con esferas HSL dinámicas y difusas en el fondo que generan una sensación de fluidez y modernidad.
-* **Modal de Confirmación Animado**: Para las acciones sensibles de eliminación de contactos, se diseñó un cuadro de diálogo elástico con rebotes físicos gracias a Framer Motion.
-* **Modo Claro Unificado**: Diseñado exclusivamente en tonos claros sofisticados y minimalistas para maximizar la legibilidad y el enfoque profesional.
